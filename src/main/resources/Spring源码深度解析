@@ -1,0 +1,56 @@
+第一章:
+第二章:
+第三章:
+第四章:
+第五章 bean的加载:
+   1.转换对应beanName
+   2.尝试从缓存中加载单例
+   3.bean的实例化
+   4.原型模式的依赖检查
+   5.检测beanFactory
+   6.将存储xml配置文件的GernericBeanDefinition转换为RootBeanDefinition
+   7.寻找依赖
+   8.针对不同的scope类型进行bean的创建。
+   9.类型转换
+  5.1: FactoryBean的使用
+  5.2: 缓存中获取单实例bean
+  5.3: 从bean的实例中获取对象
+  5.4 获取单例:
+    获取单例:
+      1.检查缓存是否已经加载过。
+      2.若没有加载，则记录beanName的正在加载状态。
+      3.加载单例前记录加载状态。
+      4.通过调用参数传入的ObjectFactory的个体Object方法实例化bean。
+      5.加载单例后的处理方法调用。
+      6.将结果记录至缓存并删除加载bean过程中所记录的各种辅助状态。
+      7.返回处理结果。
+  5.5 准备创建bean:
+    准备创建bean:
+      1.根据设置的class或者根据className来解析class。
+      2.对override属性进行标记以及验证
+      3.应用初始化前的后处理器，解析指定bean是否存在初始化前的短路操作。
+      4.创建bean。
+   5.5.1 处理ovverride属性:
+     za
+
+   5.5.2: 实例化的前置处理
+  5.6: 循环依赖
+   5.6.1: 什么是循环依赖
+     bean之间相互调用，导致循环死环。
+   5.6.2: Spring如何解决循环依赖
+     spring创建bean的原则是不等bean创建完成就会将创建bean的ObjectFactory提早曝光到缓存中，一旦下一个bean创建时需要依赖上一个bean，则直接使用ObjectFactory。
+  5.7: 创建bean
+   5.7.1: 创建bean的实例
+   5.7.2: 记录创建bean的ObjectFactory
+   5.7.3: 属性注入
+   5.7.4: 初始化bean
+   5.7.5: 注册DisableBean
+第六章:
+第七章:
+第八章:
+第九章:
+第十章:
+第十一章:
+第十二章:
+第十三章:
+

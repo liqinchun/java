@@ -1,0 +1,39 @@
+advice: 增强，aop联盟为增强定义了org.aopalliance.aop.Advice接口.spring定义了5中类型的增强,ThrowAdvice，BeforeAdvice，MethodBeforeAdvice
+  ，AfterReturningAdvice，DynamicIntroductionAdvice。另外spring只支持方法级的增强。
+切面类型:
+  Advisor: 一般切面
+  PointcutAdvisor: 具有切点的切面，主要由六个具体的实现类。
+    DefaultPointAdvisor: 最常用的切面类型，它可以通过任意的Pointcut和Advice定义一个切面，唯一不支持的就是引介的切面类型。一般可以通过扩展该类实现自定义的切面。
+    NameMethodPointAdvistor: 通过该类可以定义按方法定义切点的切面。
+    RegexpMethodPointcutAdvisor: 对于按正则表达式匹配方法名进行切点定义的切面，可以通过扩展该类进行操作。RegexpMethodPointcutAdvisor允许用户以正则表达式模式串定义方法匹配的切点，
+    其内部通过JdkRegexMethodPointcut构造出正则表达式方法名切点。
+    StaticMethodMatcherPointcutAdvisor: 静态方法匹配器切点定义的切面，默认情况下匹配所有的目标类。
+    AspectJExpressionPointAdvisor: 用于AspectJ切点表达式定义的切点的切面。
+    AspectJPointcutAdvisor: 用于AspectJ语法定义切点的切面。
+
+  IntroductionAdvisor: 引介切面
+org:
+  springframework:
+    aop:
+      BeforeAdvice: 前置增强，MethodAdvice是目前可用的前置增强。Before只是将来版本扩展需要而定义的。
+      AfterAdvice: 后置增强，表示再方法执行后实施增强。
+      ThrowsAdvice: 异常增强,表示在目标方法抛出异常之后实施增强。
+      IntroductionIntereptor: 引介增强，表示在目标类中添加一些新的方法和属性。
+      Point: Point接口描述切点
+        ClassFilter: Point由ClassFilter定位到某些特殊类上面。
+        MethodMatcher: Point由MethodMatcher定位都某些特殊的方法上面。
+
+        切点类型: 静态方法切点、动态方法切点、表达时切点、流程切点、复合切点。
+    ProxyFacctory: ProxyFacctory内部使用JDK或CGLib动态代理技术将增强应用到目标类中的，接口使用jdk，针对类使用Cglib
+    AopProxy: spring定义了AopProxy接口，并提供了两个final类型的实现类。
+      Cglib2AopProxy: 使用CGLib动态代理技术创建代理
+      JdkDynamicAopProxy: 使用JDK动态代理技术创建代理
+
+    aoppalliance:
+      intercept:
+        MethodInterceptor: 环绕增强，表示再目标方法执行前后实施增强。
+7.5: 自动创建代理
+BeanPostProcessor
+
+
+
