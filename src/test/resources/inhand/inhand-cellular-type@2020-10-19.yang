@@ -1,0 +1,122 @@
+submodule inhand-cellular-type {
+	yang-version 1.1;
+    belongs-to inhand-cellular {
+		prefix ih-cellular;
+	}
+
+	organization 
+		"Beijing InHand Networks Technology Co., Ltd.";
+	contact
+		"Beijing InHand Networks Technology Co., Ltd.
+		Chao-Yang District Beijing
+		https://inhandnetworks.com";
+
+	description
+		"Cellular types definition.";
+
+	revision 2020-10-19 {
+		description 
+			"Init revision";
+		reference
+			"Inhand private.";
+	}
+	
+	identity cellular-net-type-base {
+		description 
+			"Base identity for cellular network types or RATs(Radio Access technologies).";
+	}
+	
+	identity net-2G-only {
+		base cellular-net-type-base;
+		description
+			"Identity for 2G cellular network type.";
+	}
+	
+	identity net-3G-only {
+		base cellular-net-type-base;
+		description
+			"Identity for 3G cellular network type.";
+	}
+	
+	identity net-3G2G {
+		base cellular-net-type-base;
+		description
+			"Identity for 3G or 2G cellular network type.";
+	}
+	
+	identity net-4G-only {
+		base cellular-net-type-base;
+		description
+			"Identity for 4G cellular network type.";
+	}
+	
+	identity net-5G-only {
+		base cellular-net-type-base;
+		description
+			"Identity for 5G cellular network type.";
+	}
+	
+	typedef automatic {
+		type enumeration {
+			enum auto {
+				value 0;
+			}
+		}
+		description
+			"This type indicates automatic mode, and makes integer 0 associates with the name of 'auto'.";
+	}
+	
+	typedef unknown {
+		type enumeration {
+			enum unknown {
+				value -1;
+			}
+		}
+		description
+			"This type indicates unknown status, and makes integer -1 associates with the name of 'unknown'.";
+	}
+	
+	typedef random {
+		type enumeration {
+			enum random {
+				value 101;
+			}
+		}
+		description
+			"This type indicates random mode, and makes integer 101 associates with the name of 'random'.";
+	}
+	
+	typedef sequence {
+		type enumeration {
+			enum sequence {
+				value 102;
+			}
+		}
+		description
+			"This type indicates sequence mode, and makes integer 102 associate with the name of 'sequence'.";
+	}
+	
+	typedef modemId {
+		type enumeration {
+			enum modem1 {
+				value 1;
+			}
+		}
+		description
+			"Modem identifier";
+	}
+	
+	typedef simId {
+		type enumeration {
+			enum sim1 {
+				value 1;
+			}
+			enum sim2 {
+				value 2;
+			}
+		}
+		description
+			"SIM identifier";
+	}
+	
+}

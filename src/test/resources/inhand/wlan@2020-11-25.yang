@@ -1,0 +1,131 @@
+module wlan {
+    yang-version 1.1;
+    namespace "https:inhandnetworks.com:yang:inhand-wlan-data";
+    prefix "in-wlan-data";
+    revision 2020-11-25;
+    container wlan-config {
+
+            leaf enable {
+                  type string;
+                      }
+            leaf profile {
+                  type string;
+                      }
+            leaf vapId {
+                  type uint32;
+                      }
+            leaf channel {
+                  type string;
+                      }
+             leaf isolate {
+                  type string;
+            }
+            leaf role {
+                  type string;
+            }
+           leaf ssid {
+                 type string;
+               }
+           leaf authMethod {
+                            type string;
+                          }
+           leaf encryptMode {
+                            type string;
+                          }
+           leaf password {
+                            type string;
+                          }
+
+           leaf ipOrigin {
+                            type string;
+                          }
+           leaf frequency {
+                            type string;
+                          }
+           leaf ip {
+                            type string;
+                          }
+           leaf gateway {
+                            type string;
+                          }
+           leaf dns1 {
+                            type string;
+                          }
+
+           leaf dns2 {
+                            type string;
+                          }
+    }
+    container wlan-state {
+
+                leaf enable {
+                      type string;
+                          }
+                leaf ssid {
+                      type string;
+                          }
+                leaf ipOrigin {
+                      type string;
+                }
+                leaf connectStatus {
+                      type string;
+                }
+                leaf frequency {
+                      type string;
+                }
+                leaf ip {
+                    type string;
+                  }
+
+                leaf ifName {
+                    type string;
+                }
+                leaf mac {
+                    type string;
+                }
+                leaf netmask {
+                     type string;
+               }
+                leaf gateway {
+                    type string;
+                  }
+                 leaf dns1 {
+                    type string;
+                  }
+
+                 leaf dns2 {
+                    type string;
+                                              }
+                leaf profile {
+                      type string;
+                          }
+                leaf vapId {
+                      type uint32;
+                          }
+                leaf channel {
+                      type string;
+                          }
+                leaf role {
+                      type string;
+                }
+
+               leaf authMethod {
+                    type string;
+              }
+               leaf encryptMode {
+                    type string;
+              }
+               leaf password {
+                    type string;
+              }
+              leaf vlan {
+                  type string;
+              }
+              leaf isolate {
+                  type string;
+              }
+
+
+
+        }
+}

@@ -1,0 +1,31 @@
+submodule inhand-wlan-type {
+    yang-version 1.1;
+	belongs-to inhand-wlan {
+		prefix wlan;
+	}
+
+	organization
+    	"Beijing InHand Networks Technology Co., Ltd.";
+	contact
+    	"Beijing InHand Networks Technology Co., Ltd.
+      	Chao-Yang District Beijing
+      	https://inhandnetworks.com";
+    description
+    	"RPC YANG module for managing wlan configurations";
+
+	revision 2020-11-19 {
+    	description "Initial revision";
+    	reference "1.0.0";
+  	}
+
+  	typedef wlan-band {
+  		type enumeration {
+        	enum 5GHz {
+          		description "Radio Frequency 5GHz";
+        	}
+        	enum 2.4GHz {
+          		description "Radio Frequency 2.4GHz";
+        	}
+      	}
+  	}
+}

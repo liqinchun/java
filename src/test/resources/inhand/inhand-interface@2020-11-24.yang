@@ -1,0 +1,58 @@
+module inhand-interface {
+  yang-version 1.1;
+  namespace "https://inhandnetworks.com/yang/inhand-interface";
+  prefix ih-if;
+
+  import ietf-interfaces {
+    prefix if;
+  }
+  import ietf-inet-types {
+    prefix inet;
+  }
+  import ietf-ip {
+    prefix "ip";
+  }
+
+	organization
+        "Beijing InHand Networks Technology Co., Ltd.";
+    contact
+        "Beijing InHand Networks Technology Co., Ltd.
+        Chao-Yang District Beijing
+        https://inhandnetworks.com";
+    description
+        "Model for managing wlan configurations";
+
+    revision 2020-11-24 {
+        description "Add special interface parameters of inHand";
+        reference "1.0.0";
+    }
+
+
+  /*
+   * Data nodes
+   */
+
+  augment "/if:interfaces/if:interface/ip:ipv4" {
+      description
+        "IP parameters on interfaces.
+
+         If an interface is not capable of running IP, the server
+         must not allow the client to configure these parameters.";
+
+      leaf gateway {
+  	  type inet:ip-address;
+        description
+          "Parameters for the IPv4 address family.";
+  	}
+
+  	list dns {
+  	  key "address";
+  	  leaf address {
+  		type inet:ip-address;
+  		description
+  		"The address of the DNS server.";
+  	  }
+      }
+
+    }
+}

@@ -1,0 +1,81 @@
+module uplink {
+    yang-version 1.1;
+    namespace "unknown:uri";
+    prefix "ukn";
+    revision 2020-11-05;
+    container uplink-services {
+       list uplink-svc {
+       key device-id;
+               leaf device-id {
+                 type string;
+               }
+               container wired {
+                   list wan {
+                     key name;
+                     leaf name {
+                       type string;
+                     }
+                     leaf ip-origin {
+                       type string;
+                     }
+                     leaf gateway {
+                       type string;
+                     }
+                     leaf ip-address {
+                       type string;
+                     }
+                     list dns {
+                       key name;
+                       leaf name {
+                         type string;
+                       }
+
+                     }
+                     leaf username {
+                       type string;
+                     }
+                     leaf password {
+                       type string;
+                     }
+                   }
+               }
+               container cellular {
+
+
+               }
+               container wifi {
+                 leaf ssid {
+                   type string;
+                 }
+
+                leaf auth {
+                  type string;
+                }
+                leaf encryption_algorithm {
+                  type string;
+                }
+
+                leaf password {
+                  type string;
+                }
+                leaf type {
+                  type string;
+                }
+                leaf gateway {
+                  type string;
+                }
+                leaf ip-address {
+                  type string;
+                }
+                list dns {
+                  key name;
+                  leaf name {
+                    type string;
+                  }
+
+                }
+
+            }
+       }
+    }
+}

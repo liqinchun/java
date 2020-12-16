@@ -1,0 +1,85 @@
+submodule inhand-cellular-action {
+	yang-version 1.1;
+	belongs-to inhand-cellular {
+		prefix ih-cellular;
+	}
+
+	include inhand-cellular-type;
+	
+	organization 
+		"Beijing InHand Networks Technology Co., Ltd.";
+	contact
+		"Beijing InHand Networks Technology Co., Ltd.
+		Chao-Yang District Beijing
+		https://inhandnetworks.com";
+
+	description
+		"Cellular actions definition.";
+
+	revision 2020-10-19 {
+		description 
+			"Init revision";
+		reference
+			"Inhand private.";
+	}
+	
+	rpc switch-sim {
+		description
+			"Switch SIM operation.";
+		
+		input {
+			leaf sim-id {
+				type simId;
+				description
+					"This parameter specify SIM card which we want to use.";
+			}
+			
+			leaf modem-id {
+				type modemId;
+				description
+					"This parameter specify modem relevant to sim-id.";
+			}
+		}
+		
+		output {
+			leaf cur-sim {
+				type simId;
+				description
+					"Current used SIM behind the operation of switching sim.";
+			}
+			
+			leaf modem-id {
+				type modemId;
+				description
+					"This output indicates modem associated with cur-sim.";
+			}
+		}
+	}
+	
+	rpc reset-modem {
+		description
+			"Reset modem, this operation will cause cellular disconnect and modem reset.";
+		
+		input {
+			leaf modem-id {
+				type modemId;
+				description
+					"This parameter specify modem which will be operated by us.";
+			}
+		}
+	}
+	
+	rpc renew-cellular {
+		description
+			"Renew cellular operation, this operation will cause redialing without reseting modem.";
+		
+		input {
+			leaf modem-id {
+				type modemId;
+				description
+					"This parameter specify modem which will be operated by us.";
+			}
+		}
+	}
+	
+}

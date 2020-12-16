@@ -1,0 +1,90 @@
+submodule inhand-wlan-action {
+    yang-version 1.1;
+    belongs-to inhand-wlan {
+		prefix wlan;
+	}
+    
+	import ietf-yang-types {
+        prefix yang;
+    }
+
+    include inhand-wlan-type;
+
+    organization
+        "Beijing InHand Networks Technology Co., Ltd.";
+    contact
+        "Beijing InHand Networks Technology Co., Ltd.
+        Chao-Yang District Beijing
+        https://inhandnetworks.com";
+    description
+        "RPC YANG module for managing wlan configurations";
+
+    revision 2020-11-13 {
+    	description "Initial revision";
+  	}
+
+  	rpc wlan-scan {
+  		description "Scan the surrounding wireless signal, when wireless mode is STA";
+      
+        input {
+            leaf scan-frequency {
+                description "frequency of Radio, support 2.4GHz or 5GHz";
+                type wlan-band;
+            }
+        }
+
+  		output {
+  			list wlan-scan-entry {
+  				description "list of the wireless scan results";
+  				key "bssid";
+                
+                leaf bssid {
+  					type yang:mac-address;
+  					description "bssid of surrounding wireless";
+  				}
+
+  				leaf channel {
+                    type uint32;
+  					description "channel of surrounding wireless";
+  				}
+
+  				leaf ssid {
+  					type string;
+  					description "ssid of surrounding wireless,default format is Ascii Chinese format is utf8";
+  				}
+
+  				leaf authentication {
+                    type enumeration {
+                        enum WEP;
+                        enum WPA;
+                        enum WPA2;
+                        enum WPAWPA2;
+                        enum WPA-PSK;
+                        enum WPA2-PSK;
+                        enum WPAWPA2-PSK;
+                    }
+  					description "authentication mode of surrounding wireless";
+  				}
+
+                leaf encryption {
+                    type enumeration {
+                        enum CCMP;
+                        enum CCMP-TKIP;
+                        enum TKIP;
+                    }
+                    description "encryption mode of surrounding wireless";
+                }
+
+  				leaf signal {
+  					type uint32;
+  					description "signal of surrounding wireless strength,The unit is percentage(%)";
+  				}
+
+  				leaf connect-status {
+  					type boolean;
+  					description "Wireless client connection status,true is connected false is not";
+  				}
+  			}
+  		}
+  	}
+}

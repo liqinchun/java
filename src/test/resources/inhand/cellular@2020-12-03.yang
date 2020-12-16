@@ -1,0 +1,151 @@
+module cellular {
+    yang-version 1.1;
+    namespace "https:inhandnetworks.com:yang:inhand-cellular-data";
+    prefix "in-cellular-data";
+    revision 2020-12-03;
+
+    container cellular-config {
+            leaf enable {
+                 type string;
+            }
+
+            leaf simId {
+                 type string ;
+            }
+            leaf apn {
+    			type string {
+    				length "0..64";
+    			}
+
+    		}
+
+    		leaf accessNumber {
+    			type string {
+    				length "0..32";
+    			}
+
+    		}
+
+    		leaf authMethod {
+    			type string ;
+    		}
+
+    		leaf username {
+    			type string {
+    				length "0..32";
+    			}
+    			description
+    				"The username of profile.";
+    		}
+
+    		leaf password {
+    			type string {
+    				length "0..64";
+    			}
+    			description
+    				"The password of profile.";
+    		}
+    }
+
+
+    container cellular-state {
+                leaf modemId {
+                     type string;
+                }
+                leaf simId {
+                     type string ;
+                }
+                leaf apn {
+        			type string {
+        				length "0..64";
+        			}
+
+        		}
+
+        		leaf accessNumber {
+        			type string {
+        				length "0..32";
+        			}
+
+        		}
+
+        		leaf authMethod {
+        			type string ;
+        		}
+
+        		leaf username {
+        			type string {
+        				length "0..32";
+        			}
+        			description
+        				"The username of profile.";
+        		}
+
+        		leaf password {
+        			type string {
+        				length "0..64";
+        			}
+        			description
+        				"The password of profile.";
+        		}
+
+        		leaf operatorName {
+        		     type string;
+        		}
+        		leaf signalLevel {
+        		     type string;
+        		}
+        		leaf ip {
+        		     type string;
+        		}
+
+        		leaf threshold {
+        		     type string;
+        		}
+        		leaf unit {
+        		     type string;
+        		}
+        		leaf begindate {
+        		     type string;
+        		}
+        		leaf gateway {
+        		     type string;
+        		}
+        		leaf dns {
+        		     type string;
+        		}
+        		leaf mtu {
+        		     type string;
+        		}
+        		leaf mac {
+        		     type string;
+        		}
+        		leaf iccid {
+        		     type string;
+        		}
+        		leaf imei {
+        		     type string;
+        		}
+        		leaf imsi {
+        		     type string;
+        		}
+        		leaf phoneNumber {
+        		     type string;
+        		}
+        		leaf lac {
+        		     type string;
+        		}
+        		leaf cellId {
+        		     type string;
+        		}
+
+                leaf netType {
+                     type string;
+                }
+        }
+
+
+
+
+
+}

@@ -1,0 +1,631 @@
+module inhand-cellular {
+	yang-version 1.1;
+	namespace "https://inhandnetworks.com/yang/inhand-cellular";
+	prefix ih-cellular;
+	
+	include inhand-cellular-action;
+	include inhand-cellular-type;
+
+	organization 
+		"Beijing InHand Networks Technology Co., Ltd.";
+	contact
+		"Beijing InHand Networks Technology Co., Ltd.
+		Chao-Yang District Beijing
+		https://inhandnetworks.com";
+
+	description
+		"Cellular managemnet.";
+
+	revision 2020-10-19 {
+		description 
+			"Init revision";
+		reference
+			"Inhand private.";
+	}
+
+	feature ppp-dial {
+		description
+			"This feature indicates that the device supports PPP dial method,
+			PPP has many options, if necessary these options will be added over time.";
+		reference
+			"RFC 1661, The Point-to-Point Protocol(PPP), https://tools.ietf.org/html/rfc1661";
+	}
+	
+	grouping profile-group {
+		description
+		   "Profile for pdp context and user authentication.";
+		
+		leaf apn {
+			type string {
+				length "0..64";
+			}
+			description
+				"The APN(Access Point Name) of profile, CDMA network type no this option.";
+			reference
+				"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+		}
+		
+		leaf access-number {
+			type string {
+				length "0..32";
+			}
+			description
+				"The access number of profile, for example: '*99***1#'.";
+		}
+		
+		leaf auth-method {
+			type enumeration {
+				enum Auto;
+				enum PAP;
+				enum CHAP;
+				enum MS-CHAP;
+				enum MS-CHAPv2;
+			}
+			default Auto;
+			description
+				"Authentication method.";
+			reference
+				"https://tools.ietf.org/html/rfc1661#section-6.2";
+		}
+		
+		leaf username {
+			type string {
+				length "0..32";
+			}
+			description
+				"The username of profile.";
+		}
+		
+		leaf password {
+			type string {
+				length "0..64";
+			}
+			description
+				"The password of profile.";
+		}
+	}
+	
+	container cellular {
+		description "Cellular data node definitions.";
+		
+		leaf enabled {
+			type boolean;
+			default true;
+			description
+				"Enable or disable cellular.";
+		}
+
+		//-- ihCellular dial settings definition
+		container dial-settings {
+			description 
+				"Cellular dialing settings.";
+			
+			list sim-basic-settings {
+				key "sim-id";
+				description
+					"SIM basic settings.";
+				
+				leaf sim-id {
+					type simId;
+					description
+						"SIM identifier.";
+				}
+				
+				leaf roaming {
+					type boolean;
+					default true;
+					description
+						"Enable or disable roaming.";
+				}
+				
+				leaf pin-code {
+					type string {
+						length "4..8";
+						pattern '[0-9]*';
+					}
+					description
+						"SIM pin code.";
+				}
+				
+				leaf net-search-mode {
+					type union {
+						type automatic;
+						type identityref {
+							base cellular-net-type-base;
+						}
+					}
+					default auto;
+					description
+						"Network search mode configuration";
+				}
+				
+				container profile1 {
+					description
+						"The fist profile of this SIM.";
+					uses profile-group;
+				}
+			}
+			
+			leaf connection-mode {
+				type enumeration {
+					enum always-online {
+						description 
+							"Cellular always online.";
+					}
+					enum on-demand {
+						description
+							"Connect to the cellular network on demand, cellular will change state to up when has traffic request";
+					}
+					enum manual {
+						description
+							"Connect to the cellular network manually.";
+					}
+				}
+				default always-online;
+				description
+					"Connection mode.";
+			}
+				
+			leaf redial-interval {
+				type uint16;
+				default 10;
+				units seconds;
+				description 
+					"Waiting time before next redial.";
+			}
+			
+			container dual-sim {
+				description
+					"Dual sim settings, many options are relevant to switch sim.";
+				leaf enabled {
+					type boolean;
+					default true;
+					description 
+						"Enable or disable dual sim.";	
+				}
+				
+				leaf main-sim {
+					type union {
+						type simId;
+						type random;
+						type sequence;
+					}
+					default sim1;
+					description
+						"Specify primary sim.";
+				}
+			
+				leaf max-dial-times {
+					type uint16 {
+						range "1..10";
+					}
+					default 5;
+					description 
+						"Maximum number of dialing, if enabled dual sim and single sim dialing counts reach to the value, switch sim.";
+				}
+				
+				leaf min-connection-time {
+					type uint32 {
+						range "0..8640000";
+					}
+					units seconds;
+					description 
+						"Minimum valid connection time, if dialed up and connection time greater than the value,
+						clear corresponding variables such as redial counts, zero indicates disabled.";
+				}
+				
+				list csq {
+					key "sim-id";
+					description
+						"Configrations relevant to execute AT+CSQ command for detecting signal quality.";
+					reference
+						"AT+CSQ <RSSI>";
+							
+					leaf sim-id {
+						type simId;
+						description
+							"SIM identifier.";
+					}
+					
+					leaf csq-threshold{
+						type uint8 {
+							range "0..31";
+						}
+						description
+							"CSQ Threshold, zero indicates disabled.";
+					}
+					
+					leaf detect-interval {
+						type uint32 {
+							range "0..86400";
+						}
+						units seconds;
+						description
+							"RSSI detection interval, zero indicates disabled.";
+					}
+					
+					leaf detect-retries {
+						type uint16 {
+							range "0..100";
+						}
+						description 
+							"RSSI detection retries, if RSSI low than threshold and check retries up to the value, switch sim, 
+							zero indicates disabled.";
+					}
+				}
+				
+				leaf sim-backup-time {
+					type uint32 {
+						range "0|30..8640000";
+					}
+					units seconds;
+					description
+						"If the value greater than zero and cellular interface uptime up to the value, switch sim, 
+						zero indicates disabled.";
+				}
+			}
+			
+			container advanced {
+				description	
+					"Dialing advanced options.";
+				
+				leaf initial-at-cmds {
+					type string{
+						length "0..256";
+					}
+					description
+						"Initial AT commands, separated with the ';' character.";
+				}
+				
+				leaf rssi-poll-interval {
+					type uint16 {
+						range "0..3600";
+					}
+					units seconds;
+					default 120;
+					description
+						"RSSI(Received Signal Strength Indication) poll interval,
+						zero indicates disabled.";
+				}
+				
+				leaf dial-timeout {
+					type uint16 {
+						range "10..3600";
+					}
+					units seconds;
+					default 120;
+					description
+						"Dialing timeout, if can't get ip within the timeout, redial.";
+				}
+				
+				leaf mru {
+					if-feature ppp-dial;
+					type uint16 {
+						range "128..1500";
+					}
+					units octets;
+					description
+						"PPP MRU(Maximum Receive Unit) size.";
+					reference
+						"https://tools.ietf.org/html/rfc1661#section-6.1";
+				}
+				
+				leaf default-asyncmap {
+					if-feature ppp-dial;
+					type boolean;
+					default false;
+					description
+						"PPP default-asyncmap(-am) option, If the value is true, disable negotiation, escape all ctrl chars.";
+				}
+				
+				leaf use-peer-dns {
+					if-feature ppp-dial;
+					type boolean;
+					default	true;
+					description
+						"PPP usepeerdns option, this value indicates that use peer provided dns servers.";
+				}
+				
+				leaf lcp-echo-interval {
+					if-feature ppp-dial;
+					type uint32 {
+						range "0..640800";
+					}
+					default	55;
+					units seconds;
+					description
+						"PPP LCP(Link Control Protocol) echo interval,
+						zero indicates disabled.";
+				}
+				
+				leaf lcp-echo-retries {
+					if-feature ppp-dial;
+					type uint16 {
+						range "0..100";
+					}
+					default 5;
+					description
+						"PPP LCP echo failure times, redial when PPP LCP echo failure times greater than the value,
+						zero indicates disabled.";
+				}
+				
+				leaf expert-options {
+					if-feature ppp-dial;
+					type string {
+						length "0..256";
+					}
+					description
+						"Options for ppp dialing experts, separated with the ',' character.";
+				}
+				
+				leaf infinitly-dial-retry {
+					type boolean;
+					default false;
+					description
+						"If the value is true, no reboot due to redial many times.";
+				}
+			}
+			
+		}
+
+		//-- ihCellular Modem state data definitions
+		container modems {
+			config false;
+			description 
+				"Modem information, may support more than one modem in future.";
+				
+			list modem-entry {
+				key "modem-id";
+				config false;
+				description
+				   "Information relevant to Modem and SIM.";
+				
+				leaf modem-id {
+					type modemId;
+					description
+						"Modem identifier";
+					config false;
+				}
+				
+				container support-net-types {
+					description "Current modem supported network types or RATs(Radio Access Technologies).";
+					leaf-list net-type {
+						type identityref {
+							base cellular-net-type-base;
+						}
+						description 
+							"Cellular network type.";
+					}
+				}
+				
+				leaf active-sim {
+					type union {
+						type unknown;
+						type simId;
+					}
+					description
+						"Current active sim card.";
+					config false;
+				}
+				
+				leaf sim-status {
+					type enumeration {
+						enum nosim {
+							description
+								"SIM not inserted.";
+						}
+						enum simpin {
+							description
+								"SIM pin required.";
+						}
+						enum ready {
+							description
+								"SIM ready.";
+						}
+					}
+					description
+						"Current status of sim card.";
+					config false;
+				}
+				
+				leaf imei {
+					type string{
+						length "15";
+						pattern '[0-9]*';
+					}
+					description
+						"Modem IMEI(International Mobile Equipment Identity) code.";
+					reference
+						"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+					config false;
+				}
+				
+				leaf imsi {
+					type string{
+						length "14..15";
+						pattern '[0-9]*';
+					}
+					description
+						"SIM card IMSI (International Mobile Subscriber Identity) code.";
+					reference
+						"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+					config false;
+				}
+				
+				leaf iccid {
+					type string{
+						length "19..20";
+						pattern '[0-9A-F]*';
+					}
+					description
+						"SIM card ICCID (Integrate circuit card identity) code.";
+					reference
+						"https://www.imei.info/faq-what-is-ICCID/";
+					config false;
+				}
+				
+				leaf phone-number {
+					type string{
+						length "0..16";
+						pattern '[0-9\+]*';
+					}
+					description
+						"SIM card phone number.";
+					reference
+						"AT+CNUM <type>";
+					config false;
+				}
+				
+				leaf register-status {
+					type enumeration {
+						enum registering {
+							description
+								"Not registered, MT(Mobile Terminal) is not currently searching an operator to register to.";
+						}
+						enum registered {
+							description
+								"Registered, home network.";
+						}
+						enum searching {
+							description
+								"Not registered, but MT is currently trying to attach or searching an operator to register to.";
+						}
+						enum denied {
+							description
+								"Registration denied.";
+						}
+						enum unknown {
+							description
+								"Unknown status.";
+						}
+						enum roaming {
+							description
+								"Registered, roaming.";
+						}
+					}
+					description
+						"Modem network registration status.";
+					reference
+						"AT+CEREG <stat>";
+					config false;
+				}
+				
+				leaf current-net-type {
+					type string {
+						length "0..32";
+					}
+					description
+						"Current registered cellular network type, for example: 'FDD LTE'.";
+				}
+				
+				leaf signal-level {
+					type int16;
+					units dBm;
+					description
+						"Modem signal level.";
+					reference
+						"AT+CSQ <RSSI>";
+					config false;
+				}
+				
+				container operator {
+					description
+						"Operator information.";
+					reference
+						"AT command: AT+COPS? locates in 3GPP TS 27.007, https://www.3gpp.org/DynaReport/27-series.htm";
+					
+					leaf operator-name {
+						type string {
+							length "0..32";
+						} 
+						description
+							"Modem registered network operator name, for example: CHN-UNICOM";
+						config false;
+					}
+					
+					leaf mcc {
+						type uint16;
+						description
+							"MCC(Mobile Country Code).";
+						reference
+							"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+						config false;
+					}
+					
+					leaf mnc {
+						type uint16;
+						description
+							"MNC(Mobile Network Code).";
+						reference
+							"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+						config false;
+					}
+					
+					leaf plmn {
+						type uint32;
+						description
+							"PLMN(Public Land Mobile Network) code, obtained from network, PLMN-Id consists of Mobile Country Code (MCC) and Mobile Network Code (MNC).";
+					reference
+							"3GPP TS 23.003 specification, https://www.3gpp.org/DynaReport/23-series.htm";
+						config false;
+					}
+				}
+				
+				container cell-info {
+					description
+						"Serving cell information.";
+						
+					leaf rsrp {
+						type int16;
+						units dBm;
+						description
+							"Modem radio RSRP (Reference Signal Receiving Power).";
+						config false;
+					}
+					
+					leaf rsrq {
+						type int16;
+						units dB;
+						description
+							"Modem radio RSRQ (Reference Signal Receiving Quality).";
+						config false;
+					}
+					
+					leaf band {
+						type string{
+							length "0..32";
+						}
+						description
+							"Band info, for example: 'LTE BAND 1'.";
+						config false;
+					}
+				
+					leaf lac {
+						type string {
+							length "0..4";
+							pattern "[0-9A-F]*";
+						}
+						description
+							"LAC (Location Area Code) code, two bytes and hexadecimal format, for example: 'D509'.";
+						config false;
+					}
+					
+					leaf cell-id {
+						type string {
+							length "0..8";
+							pattern "[0-9A-F]*";
+						}
+						description
+							"Cell Id, four bytes and hexadecimal format, for example: '80D413D'.";
+						config false;
+					}
+					
+				}
+				
+			}
+		}
+		
+		
+	}
+	
+}

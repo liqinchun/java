@@ -1,0 +1,493 @@
+module inhand-wlan {
+	yang-version 1.1;
+	namespace "https://inhandnetworks.com/yang/inhand-wlan";
+	prefix wlan;
+
+    include inhand-wlan-action;
+    include inhand-wlan-type;
+
+	organization
+        "Beijing InHand Networks Technology Co., Ltd.";
+    contact
+        "Beijing InHand Networks Technology Co., Ltd.
+        Chao-Yang District Beijing
+        https://inhandnetworks.com";
+    description
+        "Model for managing wlan configurations";
+
+    revision 2020-11-13 {
+        description "Initial revision";
+    }
+
+    identity role-type {
+        description "Base for the extensible role type";
+    } 
+
+    identity AP {
+        base wlan:role-type;
+        description "Wireless AP mode";
+    }
+
+    identity STA {
+        base wlan:role-type;
+        description "Wireless STA mode";
+    }
+
+    grouping wep-group {
+        leaf auth-type {
+            description "Select WEP authentication type";
+            type enumeration {
+                enum OPEN {
+                    description "OPEN type";
+                }
+                enum SHARED {
+                    description "SHARED type";
+                }
+            }
+        }
+        leaf encrypt-mode-wep {
+            description "encrypt mode of WEP";
+            type enumeration {
+                enum NONE;
+                enum WEP;
+            }
+        }
+        leaf wep-key {
+            type string{
+                length "5|10|13|26";
+            }
+        }
+    }
+
+    grouping encrypt-mode-wpa-group {
+        leaf encrypt-mode {
+            description "encrption mode for wireless";
+            type enumeration {
+                enum CCMP;
+                enum CCMP-TKIP;
+                enum TKIP;
+            }
+        }
+    }
+
+    grouping wpa-personal-group {
+        uses encrypt-mode-wpa-group;
+        leaf wpa-personal-auth {
+            description "auth method of wpa personal";
+            type enumeration {
+                enum WPA-PSK;
+                enum WPA2-PSK;
+                enum WPAWPA2-PSK;
+            }
+        }
+        leaf psk-key {
+            type string{
+                length "8 .. 64";
+            }
+        }
+    }
+
+    grouping wpa-enterprise-group {
+        uses encrypt-mode-wpa-group;
+        leaf wpa-enterprise-auth {
+            description "auth method of wpa enterprise";
+            type enumeration {
+                enum WPA;
+                enum WPA2;
+                enum WPA/WPA2;
+            }
+        }
+        leaf radius-server {
+            description "Set RADIUS server IP address";
+            type string;
+        }
+        leaf radius-port {
+            description "Set RADIUS server port number";
+            default "1812";
+            type uint16 {
+                range "1 .. 65535";
+            }
+        }
+        leaf radius-key {
+            description "Secret RADIUS key";
+            type string {
+                length "2 .. 64";
+            }
+        }
+        leaf source-interface {
+            description "Set source interface";
+            type string;
+        }
+    }
+
+    grouping wpa-enterprise-sta-group {
+        uses encrypt-mode-wpa-group;
+        leaf wpa-enterprise-sta-auth {
+            description "auth method of wpa enterprise sta";
+            type enumeration {
+                enum WPA;
+                enum WPA2;
+            }
+        }
+        leaf authentication {
+            type enumeration {
+                enum EAP-PEAP;
+            }
+        }
+        leaf inner-authentication{
+            type enumeration {
+                enum mschapva;
+                enum md5;
+            }
+        }
+        leaf username {
+            type string;
+        }
+        leaf password {
+            type uint32;
+        }
+    }
+
+    grouping wlan-security-cfg-group {
+        description "Contains wireless security configuration";
+        choice auth-method {
+            case case-1 {
+                container wep {
+                    description "Set WEP settings";
+                    uses wep-group;
+                }
+            }
+            case case-2 {
+                container wpa-personal{
+                    description "Set WPA personal settings";
+                    uses wpa-personal-group;
+                }
+            }
+            case case-3 {
+                container wpa-enterprise {
+                    description "Set WPA enterprise settings";
+                    uses wpa-enterprise-group;
+                }
+            }
+            case case-4 {
+                container wpa-enterprise-sta {
+                    description "Set WPA enterprise sta settings";
+                    uses wpa-enterprise-sta-group;
+                }
+            }
+        }
+    }
+
+    grouping wlan-ap-cfg-group {
+        description "AP config params";
+    
+        leaf broadcast-ssid {
+            type boolean;
+            default "true";
+            description "broadcast SSID on a WLAN";
+        }
+        leaf ap-isolate {
+            type boolean;
+            default "false";
+            description "AP isolate for different wlan client";
+        }
+        leaf radio-type {
+            type enumeration{
+                enum 802.11b {
+                    description "802.11b network mode(2.4GHz)";
+                }
+                enum 802.11g {
+                    description "802.11g network mode(2.4GHz)";
+                }
+                enum 802.11ng {
+                    description "802.11ng network mode(2.4GHz)";
+                }
+                enum 802.11a {
+                    description "802.11a network mode(5GHz)";
+                }
+                enum 802.11na {
+                    description "802.11na network mode(5GHz)";
+                }
+                enum 802.11ac {
+                    description "802.11ac network mode(5GHz)";
+                }
+                enum 802.11ax {
+                    description "802.11ax network mode(wifi6)";
+                }
+            }
+            description "wireless mode of 2.4G and 5G";
+        }
+        leaf channel {
+            default Auto;
+            type enumeration{
+                enum Auto {
+                    description "Automatically selected";
+                }
+                enum 1 {
+                    description "Channel 1";
+                }
+                enum 2 {
+                    description "Channel 2";
+                }
+                enum 3 {
+                    description "Channel 3";
+                }
+                enum 4 {
+                    description "Channel 4";
+                }
+                enum 5 {
+                    description "Channel 5";
+                }
+                enum 6 {
+                    description "Channel 6";
+                }
+                enum 7 {
+                    description "Channel 7";
+                }
+                enum 8 {
+                    description "Channel 8";
+                }
+                enum 9 {
+                    description "Channel 9";
+                }
+                enum 10 {
+                    description "Channel 10";
+                }
+                enum 11 {
+                    description "Channel 11";
+                }
+                enum 12 {
+                    description "Channel 12";
+                }
+                enum 13 {
+                    description "Channel 13";
+                }
+                enum 36 {
+                    description "Channel 36";
+                }
+                enum 38 {
+                    description "Channel 38";
+                }
+                enum 40 {
+                    description "Channel 40";
+                }
+                enum 42 {
+                    description "Channel 42";
+                }
+                enum 44 {
+                    description "Channel 44";
+                }
+                enum 46 {
+                    description "Channel 46";
+                }
+                enum 48 {
+                    description "Channel 48";
+                }
+                enum 52 {
+                    description "Channel 52";
+                }
+                enum 54 {
+                    description "Channel 54";
+                }
+                enum 56 {
+                    description "Channel 56";
+                }
+                enum 58 {
+                    description "Channel 58";
+                }
+                enum 60 {
+                    description "Channel 60";
+                }
+                enum 62 {
+                    description "Channel 62";
+                }
+                enum 64 {
+                    description "Channel 64";
+                }
+                enum 100 {
+                    description "Channel 100";
+                }
+                enum 102 {
+                    description "Channel 102";
+                }
+                enum 104 {
+                    description "Channel 104";
+                }
+                enum 106 {
+                    description "Channel 106";
+                }
+                enum 108 {
+                    description "Channel 108";
+                }
+                enum 110 {
+                    description "Channel 110";
+                }
+                enum 112 {
+                    description "Channel 112";
+                }
+                enum 116 {
+                    description "Channel 116";
+                }
+                enum 118 {
+                    description "Channel 118";
+                }
+                enum 120 {
+                    description "Channel 120";
+                }
+                enum 122 {
+                    description "Channel 122";
+                }
+                enum 124 {
+                    description "Channel 124";
+                }
+                enum 126 {
+                    description "Channel 126";
+                }
+                enum 128 {
+                    description "Channel 128";
+                }
+                enum 132 {
+                    description "Channel 132";
+                }
+                enum 134 {
+                    description "Channel 134";
+                }
+                enum 136 {
+                    description "Channel 136";
+                }
+                enum 138 {
+                    description "Channel 138";
+                }
+                enum 140 {
+                    description "Channel 140";
+                }
+                enum 142 {
+                    description "Channel 142";
+                }
+                enum 144 {
+                    description "Channel 144";
+                }
+                enum 149 {
+                    description "Channel 149";
+                }
+                enum 151 {
+                    description "Channel 151";
+                }
+                enum 153 {
+                    description "Channel 153";
+                }
+                enum 155 {
+                    description "Channel 155";
+                }
+                enum 157 {
+                    description "Channel 157";
+                }
+                enum 159 {
+                    description "Channel 159";
+                }
+                enum 161 {
+                    description "Channel 161";
+                }
+                enum 165 {
+                    description "Channel 165";
+                }
+            }
+        }
+        container wlanap-security-cfg {
+            uses wlan-security-cfg-group;
+        }
+        leaf bandwidth {
+            type uint32{
+                range "20|40|80";
+            } 
+            description "Provide channel bandwidth in MHz(2.4G: 20/40 5G: 20/40/80)";          
+        }
+        leaf stations-limit {
+            type uint32;
+            description "Configure maximum client connections per WLAN";
+        }
+    }
+
+    grouping wlan-sta-cfg-group {
+        description "STA config params";
+ 
+        container wlansta-security-cfg {
+            uses wlan-security-cfg-group;
+        }
+    
+        leaf connect-status{
+            config false;
+            type string;
+            description "STA Connect status";
+        }
+    }
+
+    grouping wlan-profile-group {
+        description "Contains wireless config param";
+        leaf profile-name {
+            type string;
+            description "identify which virtual AP the profile belongs to,just like dot11radio 1(.1/.2/.3)/dot11radio 2(.1/.2/.3)";
+        }
+        leaf vap-id {
+            type uint32{
+                range "0 .. 7";
+            }
+            description "Virtual AP id for multiple SSID,2.4G(0,2,3,4),5G(1,5,6,7)";
+        }
+        leaf frequency {
+            description "frequency of Radio, support 2.4GHz or 5GHz";
+            type wlan-band;
+        }
+        leaf wlan-enable {
+            type boolean;
+            default "true";
+            description "enable or disable the wlan function";
+        }
+        leaf wlan-role {
+            type identityref {
+                base wlan:role-type;
+            }
+            description "mode of Wireless, support AP or STA";
+        }   
+        leaf ssid {
+            type string{
+                length "2 .. 64";
+            }  
+            default "Inhand-IR800";
+            description "This object represents the SSID assigned to this WLAN. The access points will broadcast this SSID on this WLAN.";
+        }
+        choice station-role {
+            case case-ap {
+                container wlan-ap-cfg {
+                    description "Set WLAN AP config";
+                    uses wlan-ap-cfg-group;
+                }
+            }
+            case case-sta {
+                container wlan-sta-cfg {
+                    description "Set WLAN STA config";
+                    uses wlan-sta-cfg-group;
+                }
+            }
+        }
+    }
+
+  /*********************************************
+          wlan config schema tree
+  **********************************************/
+
+    container wlan-entries {
+        description "Inhand WLAN config params";
+        list wlan-entry {
+            key "profile-name";
+            unique "vap-id";
+            uses wlan-profile-group {
+                refine "vap-id" {
+                    mandatory true;
+                }
+            }
+            description "List of WLAN config params";
+        }
+    }
+
+}
