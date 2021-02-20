@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.inhand.nm.test.api.mapper.OperateVrLiveMapper">
+
+	<insert id="insert" parameterType="com.example.java.mybatis.entites.OperateVrLiv" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO `operate_vr_live`(
+			`user_id`, `group_id`, `channel_id`, `name`, `description`, `state`, `live_status`, `target_group`, `img_url`, `platform`, `live_type`, `push_url`, `pull_url`, `play_url`, `video_type`, `forbid_status`, `start_time`, `end_time`, `record`, `demand`, `cdn_type`, `other_config`, `label_id`, `label_name`, `source`, `business_conf`, `num`, `create_time`, `release_time`, `update_time`, `del_state`, `delete_time`
+		) VALUES (#{userId}, #{groupId}, #{channelId}, #{name}, #{description}, #{state}, #{liveStatus}, #{targetGroup}, #{imgUrl}, #{platform}, #{liveType}, #{pushUrl}, #{pullUrl}, #{playUrl}, #{videoType}, #{forbidStatus}, #{startTime}, #{endTime}, #{record}, #{demand}, #{cdnType}, #{otherConfig}, #{labelId}, #{labelName}, #{source}, #{businessConf}, #{num}, #{createTime}, #{releaseTime}, #{updateTime}, #{delState}, #{deleteTime})
+	</insert>
+
+	<update id="update" parameterType="com.example.java.mybatis.entites.OperateVrLiv">
+		UPDATE `operate_vr_live`
+		<set>
+			<if test="userId != null">
+				`user_id` = #{userId},
+			</if>
+			<if test="groupId != null">
+				`group_id` = #{groupId},
+			</if>
+			<if test="channelId != null">
+				`channel_id` = #{channelId},
+			</if>
+			<if test="name != null">
+				`name` = #{name},
+			</if>
+			<if test="description != null">
+				`description` = #{description},
+			</if>
+			<if test="state != null">
+				`state` = #{state},
+			</if>
+			<if test="liveStatus != null">
+				`live_status` = #{liveStatus},
+			</if>
+			<if test="targetGroup != null">
+				`target_group` = #{targetGroup},
+			</if>
+			<if test="imgUrl != null">
+				`img_url` = #{imgUrl},
+			</if>
+			<if test="platform != null">
+				`platform` = #{platform},
+			</if>
+			<if test="liveType != null">
+				`live_type` = #{liveType},
+			</if>
+			<if test="pushUrl != null">
+				`push_url` = #{pushUrl},
+			</if>
+			<if test="pullUrl != null">
+				`pull_url` = #{pullUrl},
+			</if>
+			<if test="playUrl != null">
+				`play_url` = #{playUrl},
+			</if>
+			<if test="videoType != null">
+				`video_type` = #{videoType},
+			</if>
+			<if test="forbidStatus != null">
+				`forbid_status` = #{forbidStatus},
+			</if>
+			<if test="startTime != null">
+				`start_time` = #{startTime},
+			</if>
+			<if test="endTime != null">
+				`end_time` = #{endTime},
+			</if>
+			<if test="record != null">
+				`record` = #{record},
+			</if>
+			<if test="demand != null">
+				`demand` = #{demand},
+			</if>
+			<if test="cdnType != null">
+				`cdn_type` = #{cdnType},
+			</if>
+			<if test="otherConfig != null">
+				`other_config` = #{otherConfig},
+			</if>
+			<if test="labelId != null">
+				`label_id` = #{labelId},
+			</if>
+			<if test="labelName != null">
+				`label_name` = #{labelName},
+			</if>
+			<if test="source != null">
+				`source` = #{source},
+			</if>
+			<if test="businessConf != null">
+				`business_conf` = #{businessConf},
+			</if>
+			<if test="num != null">
+				`num` = #{num},
+			</if>
+			<if test="createTime != null">
+				`create_time` = #{createTime},
+			</if>
+			<if test="releaseTime != null">
+				`release_time` = #{releaseTime},
+			</if>
+			<if test="updateTime != null">
+				`update_time` = #{updateTime},
+			</if>
+			<if test="delState != null">
+				`del_state` = #{delState},
+			</if>
+			<if test="deleteTime != null">
+				`delete_time` = #{deleteTime},
+			</if>
+		</set>
+		WHERE `id` = #{id}
+	</update>
+
+	<resultMap id="operateVrLiveResultMap" type="com.example.java.mybatis.entites.OperateVrLiv">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" jdbcType="BIGINT" javaType="long" />
+		<result column="group_id" property="groupId" jdbcType="BIGINT" javaType="long" />
+		<result column="channel_id" property="channelId"  />
+		<result column="name" property="name"  />
+		<result column="description" property="description"  />
+		<result column="state" property="state"  />
+		<result column="live_status" property="liveStatus"  />
+		<result column="target_group" property="targetGroup"  />
+		<result column="img_url" property="imgUrl"  />
+		<result column="platform" property="platform"  />
+		<result column="live_type" property="liveType"  />
+		<result column="push_url" property="pushUrl"  />
+		<result column="pull_url" property="pullUrl"  />
+		<result column="play_url" property="playUrl"  />
+		<result column="video_type" property="videoType"  />
+		<result column="forbid_status" property="forbidStatus"  />
+		<result column="start_time" property="startTime"  />
+		<result column="end_time" property="endTime"  />
+		<result column="record" property="record"  />
+		<result column="demand" property="demand"  />
+		<result column="cdn_type" property="cdnType"  />
+		<result column="other_config" property="otherConfig"  />
+		<result column="label_id" property="labelId" jdbcType="BIGINT" javaType="long" />
+		<result column="label_name" property="labelName"  />
+		<result column="source" property="source"  />
+		<result column="business_conf" property="businessConf"  />
+		<result column="num" property="num"  />
+		<result column="create_time" property="createTime"  />
+		<result column="release_time" property="releaseTime"  />
+		<result column="update_time" property="updateTime"  />
+		<result column="del_state" property="delState"  />
+		<result column="delete_time" property="deleteTime"  />
+	</resultMap>
+	<sql id="operateVrLive_column">
+		`id`, `user_id`, `group_id`, `channel_id`, `name`, `description`, `state`, `live_status`, `target_group`, `img_url`, `platform`, `live_type`, `push_url`, `pull_url`, `play_url`, `video_type`, `forbid_status`, `start_time`, `end_time`, `record`, `demand`, `cdn_type`, `other_config`, `label_id`, `label_name`, `source`, `business_conf`, `num`, `create_time`, `release_time`, `update_time`, `del_state`, `delete_time`
+	</sql>
+	<select id="get" parameterType="long" resultMap="operateVrLiveResultMap">
+		SELECT 
+		<include refid="operateVrLive_column" /> 
+		FROM `operate_vr_live`
+		WHERE `id` = #{id}
+	</select>
+	<select id="getByIds" parameterType="list" resultMap="operateVrLiveResultMap">
+		SELECT 
+		<include refid="operateVrLive_column" /> 
+		FROM `operate_vr_live`
+		WHERE `id` IN
+		<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+</mapper>

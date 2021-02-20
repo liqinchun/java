@@ -1,0 +1,26 @@
+mybatis:
+  mapper-locations:
+    - classpath:mybatis/mapper/**/*.xml
+spring:
+  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+#    driver-class-name: com.mysql.jdbc.driver             # mysql驱动包
+    url: jdbc:mysql://localhost:3306/nm_onos_dev?useSSL=false  # 数据库名称
+    username: root
+    password: M3YrdTiY
+    #初始化链接数量
+    initialSize: 5
+    #最小空闲链接数
+    minIdle: 5
+    #最大并发连接数
+    maxActive: 100
+    #获取链接等待超时的时间
+    maxWait: 60000
+    #配置间隔多久才进行一次检测,检测需要关闭的空闲链接,单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+  application:
+          name: java-liqinchun

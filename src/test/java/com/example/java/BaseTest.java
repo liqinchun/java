@@ -166,14 +166,14 @@ public class BaseTest {
 
                 .setCodeGenDir(new File(javaRoot, "src").toPath())
                 .setMetadataGenDir(new File(javaRoot, "schema").toPath())
-                .setModelId("uplinkcopy@2020-11-05");
-        String file = "D:/code/java/src/test/resources/inhand/uplinkcopy@2020-11-05.yang";
+                .setModelId("uplink@2020-11-05");
+        String file = "D:/code/java/src/test/resources/inhand/uplink@2020-11-05.yang";
         param.addYangFile(Paths.get(file));
         Set<Path> paths = new HashSet<>();
-        fileList.forEach(f->{
-            paths.add(Paths.get(f));
-        });
-
+//        fileList.forEach(f->{
+//            paths.add(Paths.get(f));
+//        });
+        yangCompilerManager.compileYangFiles(param.build());
         YangPluginConfig config = new YangPluginConfig();
         synchronized(YangCompilerManager.class) {
             try {

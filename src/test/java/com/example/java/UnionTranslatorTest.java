@@ -61,7 +61,7 @@ public final class UnionTranslatorTest {
 
         JavaCodeGeneratorUtil.generateJavaCode(node, yangPluginConfig);
         YangPluginConfig.compileCode(DIR1);
-        YangIoUtils.deleteDirectory(DIR);
+//        YangIoUtils.deleteDirectory(DIR);
     }
 
     /**
@@ -180,7 +180,7 @@ public final class UnionTranslatorTest {
 
         utilManager.translateToJava(yangPluginConfig);
         YangPluginConfig.compileCode(DIR1);
-        YangIoUtils.deleteDirectory(DIR);
+//        YangIoUtils.deleteDirectory(DIR);
     }
 
     /**

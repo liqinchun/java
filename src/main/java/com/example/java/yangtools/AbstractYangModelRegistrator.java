@@ -4,7 +4,6 @@ package com.example.java.yangtools;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
-import org.onosproject.yang.compiler.plugin.maven.YangUtilManager;
 import org.onosproject.yang.compiler.tool.YangCompilerManager;
 import org.onosproject.yang.compiler.utils.io.YangPluginConfig;
 import org.osgi.service.component.annotations.Activate;
