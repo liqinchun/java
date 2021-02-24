@@ -18,7 +18,7 @@ public class AtomixManager {
                 .withMembershipProvider(BootstrapDiscoveryProvider.builder()
                         .withNodes(Node.builder()
                                 .withId("member1")
-                                .withAddress("10.5.51.42:5682")
+                                .withAddress("10.5.51.42:5683")
                                 .build())
                         .build())
                 .withManagementGroup(PrimaryBackupPartitionGroup.builder("system")

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.com.inhand.nm.test.api.mapper.OperateVrLiveMapper">
+<mapper namespace="com.example.java.mybatis.mapper.OperateVrLiveMapper">
 
-	<insert id="insert" parameterType="com.example.java.mybatis.entites.OperateVrLiv" keyProperty="id" useGeneratedKeys="true">
+	<insert id="insert" parameterType="com.example.java.mybatis.entites.OperateVrLive" keyProperty="id" useGeneratedKeys="true">
 		INSERT INTO `operate_vr_live`(
 			`user_id`, `group_id`, `channel_id`, `name`, `description`, `state`, `live_status`, `target_group`, `img_url`, `platform`, `live_type`, `push_url`, `pull_url`, `play_url`, `video_type`, `forbid_status`, `start_time`, `end_time`, `record`, `demand`, `cdn_type`, `other_config`, `label_id`, `label_name`, `source`, `business_conf`, `num`, `create_time`, `release_time`, `update_time`, `del_state`, `delete_time`
 		) VALUES (#{userId}, #{groupId}, #{channelId}, #{name}, #{description}, #{state}, #{liveStatus}, #{targetGroup}, #{imgUrl}, #{platform}, #{liveType}, #{pushUrl}, #{pullUrl}, #{playUrl}, #{videoType}, #{forbidStatus}, #{startTime}, #{endTime}, #{record}, #{demand}, #{cdnType}, #{otherConfig}, #{labelId}, #{labelName}, #{source}, #{businessConf}, #{num}, #{createTime}, #{releaseTime}, #{updateTime}, #{delState}, #{deleteTime})
 	</insert>
 
-	<update id="update" parameterType="com.example.java.mybatis.entites.OperateVrLiv">
+	<update id="update" parameterType="com.example.java.mybatis.entites.OperateVrLive">
 		UPDATE `operate_vr_live`
 		<set>
 			<if test="userId != null">
@@ -111,7 +111,7 @@
 		WHERE `id` = #{id}
 	</update>
 
-	<resultMap id="operateVrLiveResultMap" type="com.example.java.mybatis.entites.OperateVrLiv">
+	<resultMap id="operateVrLiveResultMap" type="com.example.java.mybatis.entites.OperateVrLive">
 		<id column="id" property="id" />
 		<result column="user_id" property="userId" jdbcType="BIGINT" javaType="long" />
 		<result column="group_id" property="groupId" jdbcType="BIGINT" javaType="long" />
